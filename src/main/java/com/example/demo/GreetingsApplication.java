@@ -2,10 +2,7 @@ package com.example.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,4 +38,22 @@ public class GreetingsApplication {
 		return key.toString();
 	}
 
+	// Retrieve all greetings that have been added to the web service
+
+	@GetMapping("/greetings")
+	public String getAll() {
+		StringBuilder sb = new StringBuilder();
+		for (Map.Entry<Integer, String> entry : greetings.entrySet()) {
+			sb.append(entry.getKey() + ":" + entry.getValue());
+			sb.append(System.getProperty("line.separator"));
+		}
+		return sb.toString();
+	}
+
+	// Retrieve a particular greeting from the web service, by ID
+
+	@GetMapping("/greetings/{id}")
+	public String getById(@PathVariable Integer id) {
+		return greetings.get(id);
+	}
 }
